@@ -22,10 +22,9 @@ Requires:      php-ldap
 Requires:      php-pear
 Requires(pre): php-pear-Net_LDAP2
 Suggests:      php-pear-PHPUnit
-BuildRequires: horde-framework
 BuildRequires: php-pear
 BuildRequires: php-pear-channel-horde
-BuildRoot:     %{_tmppath}/%{name}-%{version}
+
 
 %description
 This package allows read/write entries in the Kolab user
