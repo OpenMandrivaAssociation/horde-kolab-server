@@ -6,14 +6,14 @@
 
 Name:          horde-kolab-server
 Version:       0.5.0
-Release:       %mkrel 1
+Release:       %mkrel 2
 Summary:       A package for manipulating the Kolab user database
 License:       LGPL
 Group:         Networking/Mail
 Url:           http://pear.horde.org/index.php?package=%{prj}
 Source0:       %{prj}-%{version}.tgz
 BuildArch:     noarch
-Requires(pre): %{_bindir}/pear
+Requires(pre): php-pear
 Requires:      horde-framework
 Requires:      horde-ldap
 Requires:      horde-sessionobjects
