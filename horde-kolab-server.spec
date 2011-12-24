@@ -1,4 +1,4 @@
-%define prj Kolab_Server
+%define _requires_exceptions pear(PHPUnit/Framework.php)
 %define prj Kolab_Server
 
 %define xmldir  %{_var}/lib/pear
@@ -6,7 +6,7 @@
 
 Name:          horde-kolab-server
 Version:       0.5.0
-Release:       %mkrel 3
+Release:       %mkrel 4
 Summary:       A package for manipulating the Kolab user database
 License:       LGPL
 Group:         Networking/Mail
