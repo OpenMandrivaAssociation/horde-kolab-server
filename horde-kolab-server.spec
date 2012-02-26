@@ -1,103 +1,73 @@
 %define _requires_exceptions pear(PHPUnit/Framework.php)
-%define prj Kolab_Server
+%define peardir %(pear config-get php_dir 2> /dev/null || echo %{_datadir}/pear)
+%define xmldir  /var/lib/pear
 
-%define xmldir  %{_var}/lib/pear
-%define peardir %(pear config-get php_dir 2> /dev/null)
-
-Name:          horde-kolab-server
-Version:       0.5.0
-Release:       %mkrel 7
-Summary:       A package for manipulating the Kolab user database
-License:       LGPL
-Group:         Networking/Mail
-Url:           http://pear.horde.org/index.php?package=%{prj}
-Source0:       %{prj}-%{version}.tgz
-BuildArch:     noarch
-Requires(pre): php-pear
-Requires:      horde-framework
-Requires:      horde-ldap
-Requires:      horde-sessionobjects
-Requires:      php-ldap
-Requires:      php-pear
-Requires(pre): php-pear-Net_LDAP2
-Suggests:      php-pear-PHPUnit
-BuildRequires: php-pear
-BuildRequires: php-pear-channel-horde
-
+Summary: 	A package for manipulating the Kolab user database
+Name:		horde-kola-server
+Version:		0.5.0
+Release: 	%mkrel 7
+License: 	LGPLv2.1
+Group:		Networking/Mail
+Source0:		http://pear.horde.org/get/Kolab_Server-%{version}.tgz
+URL:		http://pear.horde.org/package/Kolab_Server
+BuildRequires: 	php-pear  >= 1.4.7
+BuildRequires:	php-pear-channel-horde
+Requires: 	horde-auth, 
+Requires:	php-pear-Net_LDAP2 
+Requires:	php-pear >= 1.4.0b1
+Requires:	php-pear-channel-horde
+BuildArch:	noarch
 
 %description
-This package allows read/write entries in the Kolab user
-database stored in LDAP.
-
+This package allows to read/write entries in the Kolab user
+ database stored in LDAP.
 
 %prep
-%setup -q -n %{prj}-%{version}
-%__cp %{SOURCE0} %{prj}-%{version}.tgz
+%setup -c -T
+pear -v -c pearrc \
+        -d php_dir=%{peardir} \
+        -d doc_dir=/docs \
+        -d bin_dir=%{_bindir} \
+        -d data_dir=%{peardir}/data \
+        -d test_dir=%{peardir}/tests \
+        -d ext_dir=%{_libdir} \
+        -s
 
 %build
 
 %install
-pear install --packagingroot %{buildroot} --nodeps --offline %{prj}-%{version}.tgz
+rm -rf %{buildroot}
+pear -c pearrc install --nodeps --packagingroot %{buildroot} %{SOURCE0}
+        
+# Clean up unnecessary files
+rm pearrc
+rm %{buildroot}/%{peardir}/.filemap
+rm %{buildroot}/%{peardir}/.lock
+rm -rf %{buildroot}/%{peardir}/.registry
+rm -rf %{buildroot}%{peardir}/.channels
+rm %{buildroot}%{peardir}/.depdb
+rm %{buildroot}%{peardir}/.depdblock
 
-%__rm -rf %{buildroot}/%{peardir}/.{filemap,lock,registry,channels,depdb,depdblock}
 
-%__mkdir_p %{buildroot}%{xmldir}
-%__cp %{_builddir}/package.xml %{buildroot}%{xmldir}/%{prj}.xml
+
+# Install XML package description
+mkdir -p %{buildroot}%{xmldir}
+tar -xzf %{SOURCE0} package.xml
+cp -p package.xml %{buildroot}%{xmldir}/Kolab_Server.xml
 
 %clean
-%__rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %post
-pear install --nodeps --soft --force --register-only %{xmldir}/%{prj}.xml
+pear install --nodeps --soft --force --register-only %{xmldir}/Kolab_Server.xml
 
 %postun
 if [ "$1" -eq "0" ]; then
-  pear uninstall --nodeps --ignore-errors --register-only pear.horde.org/%{prj}
+    pear uninstall --nodeps --ignore-errors --register-only pear.horde.org/Kolab_Server
 fi
 
 %files
-%defattr(-, root, root)
-%{xmldir}/%{prj}.xml
-%dir %{peardir}/Horde/Kolab
-%dir %{peardir}/Horde/Kolab/IMAP
-%dir %{peardir}/Horde/Kolab/Server
-%dir %{peardir}/Horde/Kolab/Server/Object
-%dir %{peardir}/Horde/Kolab/Test
-%{peardir}/Horde/Kolab/IMAP.php
-%{peardir}/Horde/Kolab/IMAP/cclient.php
-%{peardir}/Horde/Kolab/IMAP/pear.php
-%{peardir}/Horde/Kolab/IMAP/test.php
-%{peardir}/Horde/Kolab/Server.php
-%{peardir}/Horde/Kolab/Server/Object.php
-%{peardir}/Horde/Kolab/Server/Object/address.php
-%{peardir}/Horde/Kolab/Server/Object/administrator.php
-%{peardir}/Horde/Kolab/Server/Object/adminrole.php
-%{peardir}/Horde/Kolab/Server/Object/distlist.php
-%{peardir}/Horde/Kolab/Server/Object/domainmaintainer.php
-%{peardir}/Horde/Kolab/Server/Object/group.php
-%{peardir}/Horde/Kolab/Server/Object/maintainer.php
-%{peardir}/Horde/Kolab/Server/Object/server.php
-%{peardir}/Horde/Kolab/Server/Object/sharedfolder.php
-%{peardir}/Horde/Kolab/Server/Object/user.php
-%{peardir}/Horde/Kolab/Server/ldap.php
-%{peardir}/Horde/Kolab/Server/test.php
-%{peardir}/Horde/Kolab/Session.php
-%{peardir}/Horde/Kolab/Test/Server.php
-%dir %{peardir}/tests/Kolab_Server/Horde/Kolab/Server
-%dir %{peardir}/tests/Kolab_Server
-%dir %{peardir}/tests/Kolab_Server/Horde
-%dir %{peardir}/tests/Kolab_Server/Horde/Kolab
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/AddingObjectsTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/AdminTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/AllTests.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/DistListHandlingTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/GroupHandlingTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/GroupTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/ObjectTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/ServerTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/SessionTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/UserHandlingTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/UserTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/ldapTest.php
-%{peardir}/tests/Kolab_Server/Horde/Kolab/Server/testTest.php
+%defattr(-,root,root)
 
+%{peardir}/*
+%{xmldir}/Kolab_Server.xml
