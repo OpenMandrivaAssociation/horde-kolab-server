@@ -3,7 +3,7 @@
 %define xmldir  /var/lib/pear
 
 Summary: 	A package for manipulating the Kolab user database
-Name:		horde-kola-server
+Name:		horde-kolab-server
 Version:		0.5.0
 Release: 	%mkrel 7
 License: 	LGPLv2.1
