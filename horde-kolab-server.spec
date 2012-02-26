@@ -6,7 +6,7 @@
 
 Name:          horde-kolab-server
 Version:       0.5.0
-Release:       %mkrel 6
+Release:       %mkrel 7
 Summary:       A package for manipulating the Kolab user database
 License:       LGPL
 Group:         Networking/Mail
