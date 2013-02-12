@@ -1,11 +1,10 @@
-%define _requires_exceptions pear(PHPUnit/Framework.php)\\|pear(PHPUnit/Extensions/Story/TestCase.php)
 %define peardir %(pear config-get php_dir 2> /dev/null || echo %{_datadir}/pear)
 %define xmldir  /var/lib/pear
 
 Summary: 	A package for manipulating the Kolab user database
 Name:		horde-kolab-server
 Version:		0.5.0
-Release: 	%mkrel 9
+Release: 	10
 License: 	LGPLv2.1
 Group:		Networking/Mail
 Source0:		http://pear.horde.org/get/Kolab_Server-%{version}.tgz
