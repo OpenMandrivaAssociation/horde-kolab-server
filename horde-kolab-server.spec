@@ -4,7 +4,7 @@
 Summary: 	A package for manipulating the Kolab user database
 Name:		horde-kolab-server
 Version:		0.5.0
-Release: 	10
+Release: 	11
 License: 	LGPLv2.1
 Group:		Networking/Mail
 Source0:		http://pear.horde.org/get/Kolab_Server-%{version}.tgz
