@@ -8,7 +8,7 @@ Release: 	11
 License: 	LGPLv2.1
 Group:		Networking/Mail
 Source0:		http://pear.horde.org/get/Kolab_Server-%{version}.tgz
-URL:		http://pear.horde.org/package/Kolab_Server
+URL:		https://pear.horde.org/package/Kolab_Server
 BuildRequires: 	php-pear  >= 1.4.7
 BuildRequires:	php-pear-channel-horde
 Requires: 	horde-auth, 
